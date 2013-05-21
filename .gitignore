@@ -11,3 +11,15 @@
 *.lai
 *.la
 *.a
+Debug
+/Release
+/*.suo
+/*.sdf
+*.user
+*.filters
+/RawSnake/Release/*.lastbuildstate
+/RawSnake/Release/*.log
+/RawSnake/Release/*.obj
+/RawSnake/Release/*.pdb
+/RawSnake/Release/*.tlog
+Release
