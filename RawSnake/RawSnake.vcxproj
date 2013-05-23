@@ -112,10 +112,10 @@
     <Image Include="Resource\floor.png" />
     <Image Include="Resource\food.png" />
     <Image Include="Resource\gameover.png" />
-    <Image Include="Resource\head.png" />
+    <Image Include="Resource\tail.png" />
     <Image Include="Resource\intro.png" />
     <Image Include="Resource\snake.png" />
-    <Image Include="Resource\tail.png" />
+    <Image Include="Resource\head.png" />
     <Image Include="Resource\wall.png" />
   </ItemGroup>
   <ItemGroup>

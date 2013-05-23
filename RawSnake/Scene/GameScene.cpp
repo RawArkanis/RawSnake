@@ -184,18 +184,24 @@ void GameScene::Draw()
 
         glPushMatrix();
 
+        float branco[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        float specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, branco);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+        glMateriali(GL_FRONT, GL_SHININESS, 10);
+
         glBindTexture(GL_TEXTURE_2D, _textures[5]);
 
         glBegin(GL_QUADS);
         glColor3f(1.0f, 0.1f, 0.1f);
         glTexCoord2f(0, 0);
         glVertex3f(0, 0, 0);
-        glTexCoord2f(1, 0);
-        glVertex3f(GAME_WIDTH, 0, 0); 
+        glTexCoord2f(0, 1);
+        glVertex3f(0, GAME_HEIGHT, 0); 
         glTexCoord2f(1, 1);
         glVertex3f(GAME_WIDTH, GAME_HEIGHT, 0);
-        glTexCoord2f(0, 1);
-        glVertex3f(0, GAME_HEIGHT, 0);
+        glTexCoord2f(1, 0);
+        glVertex3f(GAME_WIDTH, 0, 0);
         glEnd();
 
         glPopMatrix();
@@ -229,6 +235,44 @@ void GameScene::Draw()
             _tails[i]->Draw();
 
         _food.Draw();
+    }
+    else if (_state == GS_GAME_OVER)
+    {
+        glEnable(GL_TEXTURE_2D);
+
+        glDisable(GL_DEPTH_TEST);
+
+        ViewOrtho();
+
+        glPushMatrix();
+
+        float branco[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        float specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, branco);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+        glMateriali(GL_FRONT, GL_SHININESS, 10);
+
+        glBindTexture(GL_TEXTURE_2D, _textures[6]);
+
+        glBegin(GL_QUADS);
+        glColor3f(1.0f, 0.1f, 0.1f);
+        glTexCoord2f(0, 0);
+        glVertex3f(0, 0, 0);
+        glTexCoord2f(0, 1);
+        glVertex3f(0, GAME_HEIGHT, 0); 
+        glTexCoord2f(1, 1);
+        glVertex3f(GAME_WIDTH, GAME_HEIGHT, 0);
+        glTexCoord2f(1, 0);
+        glVertex3f(GAME_WIDTH, 0, 0);
+        glEnd();
+
+        glPopMatrix();
+
+        ViewPerspective();
+
+        glEnable(GL_DEPTH_TEST);
+
+        glDisable(GL_TEXTURE_2D);
     }
 }
 

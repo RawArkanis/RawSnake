@@ -31,7 +31,7 @@ void Game::setup()
         0.0f, 0.0f, 1.0f,
         0.0f, 1.0f, 0.0f);
 
-    float ambientLight[] = {0.05f, 0.05f, 0.05f};
+    float ambientLight[] = {1.0f, 1.0f, 1.0f};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
 }
 
