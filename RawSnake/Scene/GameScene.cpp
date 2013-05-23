@@ -5,7 +5,6 @@ GameScene::GameScene(SceneManager *manager, const std::string &name)
     _elapsedTime(0.0f),
     _direction(D_DOWN),
     _state(GS_IDLE),
-    _blockMove(false),
     _enlarge(false)
 {
     srand(SDL_GetTicks());
@@ -48,34 +47,41 @@ void GameScene::Update(float delta)
     {
         if (keys[SDLK_r])
             Reset();
-        else if (keys[SDLK_UP] && !_blockMove && _direction != D_DOWN)
+        else if (keys[SDLK_UP])
         {
-            _direction = D_UP;
-            _blockMove = true;
+            if ((_moveQueue.size() == 0 && _direction != D_DOWN && _direction != D_UP) || 
+                (_moveQueue.size() == 1 && _moveQueue.front() != D_UP && _moveQueue.front() != D_DOWN))
+                _moveQueue.push(D_UP);
         }
-        else if (keys[SDLK_DOWN] && !_blockMove && _direction != D_UP)
+        else if (keys[SDLK_DOWN])
         {
-            _direction = D_DOWN;
-            _blockMove = true;
+            if ((_moveQueue.size() == 0 && _direction != D_DOWN && _direction != D_UP) ||
+                (_moveQueue.size() == 1 && _moveQueue.front() != D_UP && _moveQueue.front() != D_DOWN))
+                _moveQueue.push(D_DOWN);
         }
-        else if (keys[SDLK_LEFT] && !_blockMove && _direction != D_RIGHT)
+        else if (keys[SDLK_LEFT])
         {
-            _direction = D_LEFT;
-            _blockMove = true;
+            if ((_moveQueue.size() == 0 && _direction != D_LEFT && _direction != D_RIGHT) ||
+                (_moveQueue.size() == 1 && _moveQueue.front() != D_LEFT && _moveQueue.front() != D_RIGHT))
+                _moveQueue.push(D_LEFT);
         }
-        else if (keys[SDLK_RIGHT] && !_blockMove && _direction != D_LEFT)
+        else if (keys[SDLK_RIGHT])
         {
-            _direction = D_RIGHT;
-            _blockMove = true;
+            if ((_moveQueue.size() == 0 && _direction != D_LEFT && _direction != D_RIGHT) ||
+                (_moveQueue.size() == 1 && _moveQueue.front() != D_LEFT && _moveQueue.front() != D_RIGHT))
+                _moveQueue.push(D_RIGHT);
         }
 
         _elapsedTime += delta;
         if (_elapsedTime >= 0.250f)
         {
-            _elapsedTime -= 0.250f;
+            _elapsedTime = 0.0f;
 
-            if (_blockMove)
-                _blockMove = false;
+            if (_moveQueue.size() != 0)
+            {
+                _direction = _moveQueue.front();
+                _moveQueue.pop();
+            }
 
             SDL_Rect rect = _head.Rect();
             SDL_Rect old = rect;
@@ -280,6 +286,10 @@ void GameScene::Reset()
 {
     SDL_Rect rect = { 0, 0, 0, 0 };
 
+    int size = _moveQueue.size();
+    for (int i = 0; i < size; i++)
+        _moveQueue.pop();
+
     _head.Rect(rect);
 
     _elapsedTime = 0.0f;
@@ -287,7 +297,7 @@ void GameScene::Reset()
     _state = GS_IDLE;
 
     _tails.clear();
-    
+
     for (int i = 0; i < 3; i++)
     {
         rect.y--;

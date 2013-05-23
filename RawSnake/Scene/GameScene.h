@@ -2,6 +2,7 @@
 #define __GAME_SCENE_H__
 
 #include <vector>
+#include <queue>
 
 #include "Scene.h"
 #include "../Map/Map.h"
@@ -38,8 +39,9 @@ private:
     Direction _direction;
     GameState _state;
 
-    bool _blockMove;
     bool _enlarge;
+
+    std::queue<Direction> _moveQueue;
 
     std::vector<SDL_Rect> _lastFoodPos;
 
